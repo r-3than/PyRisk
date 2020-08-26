@@ -12,20 +12,22 @@ class ghostText:
         self.index = index
         self.now = datetime.datetime.now()
         self.start = self.now
+        self.dt = datetime.timedelta(seconds=length)
         self.end = self.now + datetime.timedelta(seconds=length)
     def draw(self,scr):
         self.now = datetime.datetime.now()
         if self.now <= self.end:
             startdiff = self.now - self.start # this is timedelta obj
-            enddiff = self.end - self.start
-
-            alpha = 255-round((startdiff.total_seconds()/enddiff.total_seconds())*255,0)
+            enddiff = self.dt
+            #print(startdiff.total_seconds(),enddiff.total_seconds(),255-round((startdiff.total_seconds()/enddiff.total_seconds())*255,0))
+            alpha = 255-(round((startdiff.total_seconds()/enddiff.total_seconds())*255,0))//100
             #print(alpha)
-            surface=pygame.Surface((self.rendFont.get_rect()[2],self.rendFont.get_rect()[3]))
+            surface=pygame.Surface((self.rendFont.get_rect()[2],self.rendFont.get_rect()[3]),pygame.SRCALPHA)
             surface.fill((255, 255, 255,alpha))
+            self.rendFont.blit(surface,(0,0) ,special_flags=pygame.BLEND_RGBA_MULT)
 
-            self.rendFont.blit(surface,(0,0), special_flags=pygame.BLEND_RGBA_MULT)
-            scr.blit(self.rendFont, (self.x,self.y) )
+
+            scr.blit(self.rendFont, (self.x,self.y))
 
             #self.rendFont.set_alpha(alpha)
             #scr.blit(self.rendFont,(self.x,self.y))
