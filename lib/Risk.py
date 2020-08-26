@@ -565,6 +565,18 @@ class Risk:
                     data=self.sock.recv(4096)
                     self.data = data
                     self.UpdateState()
+    def checkWin(self):
+        varx = random.randint(-50,50)
+        vary = random.randint(-50,50)
+        for pl in self.Players:
+            if pl.amtOfLand() == 0:
+                pl.eliminate()
+                self.Players.remove(pl)
+                self.ghTextManager.addGhostText(pl.name + " has been eliminated!",100,self.totysize//3,100)
+        if len(self.Players) == 1:
+            varx = random.randint(-50,50)
+            vary = random.randint(-50,50)
+            self.ghTextManager.addGhostText(self.Players[0].name + " Has won the game! \n press Esc to start a new game" ,100+varx,self.totysize//2+vary,80)
 
     def playerActionMouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -588,6 +600,9 @@ class Risk:
                         for reg in self.Regions:
                             if isPointInPoly(self.pos,reg.points) == True and isAdj(self.selectedTile,reg) ==True and (reg not in self.CurrPlayer.ownedLand):
                                 self.CurrPlayer.attack(self.selectedTile,reg,self.ghTextManager)
+
+                    self.checkWin()
+
                     #print("attacking")
 
                 elif self.CurrPlayer.Phase ==2:

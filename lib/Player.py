@@ -6,6 +6,10 @@ class Player:
         self.availableUnits =  availableUnits
         self.ownedLand = []
         self.Phase = phase
+    def amtOfLand(self):
+        return len(self.ownedLand)
+    def eliminate(self):
+        self.availableUnits =0 
     def nextPhase(self):
         self.Phase = self.Phase + 1
         if self.Phase == 4:
@@ -27,7 +31,7 @@ class Player:
                     return reg
     def Transfer(self,reg1,reg2):
         if reg1.Units.amt > 1:
-            
+
             reg1.Units.changeUnits(-1)
             reg2.Units.changeUnits(1)
 
