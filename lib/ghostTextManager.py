@@ -20,10 +20,11 @@ class ghostText:
             startdiff = self.now - self.start # this is timedelta obj
             enddiff = self.dt
             #print(startdiff.total_seconds(),enddiff.total_seconds(),255-round((startdiff.total_seconds()/enddiff.total_seconds())*255,0))
-            alpha = 255-(round((startdiff.total_seconds()/enddiff.total_seconds())*255,0))//100
+            alpha = 255-(round((startdiff.total_seconds()/enddiff.total_seconds())*255,0))//10
             #print(alpha)
             surface=pygame.Surface((self.rendFont.get_rect()[2],self.rendFont.get_rect()[3]),pygame.SRCALPHA)
-            surface.fill((255, 255, 255,alpha))
+            surface.fill((255,255,255))
+            surface.set_alpha(alpha)
             self.rendFont.blit(surface,(0,0) ,special_flags=pygame.BLEND_RGBA_MULT)
 
 
