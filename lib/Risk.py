@@ -379,14 +379,14 @@ class Risk:
         ## add new units etc
         for x in range(0,len(self.Players)):
             self.Players[x].ownedLand = []
-                for y in range(0,len(newGameState.Players[x].regionsIndex)):
-                    index = newGameState.Players[x].regionsIndex[y]
-                    for reg in self.Regions:
-                        if reg.index  == index:
-                            currentReg = reg
-                            self.Players[x].ownedLand.append(currentReg)
-                            currentReg.SetOwner(self.Players[x])
-                            currentReg.setUnit(newGameState.Players[x].unitsIndex[y])
+            for y in range(0,len(newGameState.Players[x].regionsIndex)):
+                index = newGameState.Players[x].regionsIndex[y]
+                for reg in self.Regions:
+                    if reg.index  == index:
+                        currentReg = reg
+                        self.Players[x].ownedLand.append(currentReg)
+                        currentReg.SetOwner(self.Players[x])
+                        currentReg.setUnit(newGameState.Players[x].unitsIndex[y])
 
         for x in range(0,len(newGameState.Players)):
                 self.Players[x].availableUnits = newGameState.Players[x].unitsFree
@@ -666,8 +666,9 @@ class Risk:
                         if reg.highl == True:
                             reg.highlight()
                     self.selectedTile = None
-
-                    while self.CurrPlayer.dead == False:
+                    self.CurrPlayerTurn = (self.CurrPlayerTurn +1) %len(self.Players)
+                    self.CurrPlayer = self.Players[self.CurrPlayerTurn]
+                    while self.CurrPlayer.dead == True:
                         self.CurrPlayerTurn = (self.CurrPlayerTurn +1) %len(self.Players)
                         self.CurrPlayer = self.Players[self.CurrPlayerTurn]
                     self.myStatBar.ChangePly(self.CurrPlayer)
