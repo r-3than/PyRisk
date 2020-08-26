@@ -6,10 +6,12 @@ class Player:
         self.availableUnits =  availableUnits
         self.ownedLand = []
         self.Phase = phase
+        self.dead= False
     def amtOfLand(self):
         return len(self.ownedLand)
     def eliminate(self):
-        self.availableUnits =0 
+        self.availableUnits =0
+        self.dead = True
     def nextPhase(self):
         self.Phase = self.Phase + 1
         if self.Phase == 4:

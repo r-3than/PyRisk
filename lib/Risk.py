@@ -379,14 +379,14 @@ class Risk:
         ## add new units etc
         for x in range(0,len(self.Players)):
             self.Players[x].ownedLand = []
-            for y in range(0,len(newGameState.Players[x].regionsIndex)):
-                index = newGameState.Players[x].regionsIndex[y]
-                for reg in self.Regions:
-                    if reg.index  == index:
-                        currentReg = reg
-                        self.Players[x].ownedLand.append(currentReg)
-                        currentReg.SetOwner(self.Players[x])
-                        currentReg.setUnit(newGameState.Players[x].unitsIndex[y])
+                for y in range(0,len(newGameState.Players[x].regionsIndex)):
+                    index = newGameState.Players[x].regionsIndex[y]
+                    for reg in self.Regions:
+                        if reg.index  == index:
+                            currentReg = reg
+                            self.Players[x].ownedLand.append(currentReg)
+                            currentReg.SetOwner(self.Players[x])
+                            currentReg.setUnit(newGameState.Players[x].unitsIndex[y])
 
         for x in range(0,len(newGameState.Players)):
                 self.Players[x].availableUnits = newGameState.Players[x].unitsFree
@@ -432,7 +432,7 @@ class Risk:
             aText.y = ghText.y
             aText.length = ghText.length
             aText.index = ghText.index
-
+            #print(ghText.text)
         return thisGameState
 
     def saveGame(self,dir):
@@ -571,12 +571,11 @@ class Risk:
         for pl in self.Players:
             if pl.amtOfLand() == 0:
                 pl.eliminate()
-                self.Players.remove(pl)
-                self.ghTextManager.addGhostText(pl.name + " has been eliminated!",100,self.totysize//3,100)
+                self.ghTextManager.addGhostText(pl.name + " has been eliminated!",100,self.totysize//3,8)
         if len(self.Players) == 1:
             varx = random.randint(-50,50)
             vary = random.randint(-50,50)
-            self.ghTextManager.addGhostText(self.Players[0].name + " Has won the game! \n press Esc to start a new game" ,100+varx,self.totysize//2+vary,80)
+            self.ghTextManager.addGhostText(self.Players[0].name + " Has won the game! \n press Esc to start a new game" ,100+varx,self.totysize//2+vary,8)
 
     def playerActionMouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -600,8 +599,9 @@ class Risk:
                         for reg in self.Regions:
                             if isPointInPoly(self.pos,reg.points) == True and isAdj(self.selectedTile,reg) ==True and (reg not in self.CurrPlayer.ownedLand):
                                 self.CurrPlayer.attack(self.selectedTile,reg,self.ghTextManager)
+                        self.checkWin()
 
-                    self.checkWin()
+
 
                     #print("attacking")
 
@@ -666,8 +666,10 @@ class Risk:
                         if reg.highl == True:
                             reg.highlight()
                     self.selectedTile = None
-                    self.CurrPlayerTurn = (self.CurrPlayerTurn +1) %len(self.Players)
-                    self.CurrPlayer = self.Players[self.CurrPlayerTurn]
+
+                    while self.CurrPlayer.dead == False:
+                        self.CurrPlayerTurn = (self.CurrPlayerTurn +1) %len(self.Players)
+                        self.CurrPlayer = self.Players[self.CurrPlayerTurn]
                     self.myStatBar.ChangePly(self.CurrPlayer)
                     newUnitsamt = 0
                     for reg in self.CurrPlayer.ownedLand:
