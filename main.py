@@ -20,7 +20,7 @@ from lib.Unit import Unit
 from lib.ghostTextManager import ghostTextManager
 from lib.Risk import Risk
 from lib.Player import Player
-
+print("Github Commit test from Atom")
 
 def CreateMenu(List):
     aMenu = Menu()
