@@ -1,0 +1,15 @@
+syntax = "proto3";
+message Region
+{
+    int32 index   = 1;
+    string name   = 2;
+    int32 worth  = 3;
+    int32 provId   = 4;
+    repeated int32 Tuple = 5;
+    repeated int32 connections =6;
+}
+
+message Map
+{
+    repeated Region regions = 1;
+}

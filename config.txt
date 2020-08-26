@@ -1,0 +1,6 @@
+name:Ethan
+amtply:2
+hostname:localhost
+address:localhost
+port:52525
+map:./maps/Map.txt

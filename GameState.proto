@@ -1,0 +1,31 @@
+syntax = "proto3";
+message Game
+{
+    string mapdir   = 1;
+    string name   = 2;
+    repeated Player Players = 3;
+    int32 currentPlayerIndex = 4;
+    int32 currentPlayerPhase = 5;
+    int32 sizex =6;
+    int32 sizey =7;
+    repeated GhostText GhostTexts =8;
+}
+
+message Player
+{
+    string playerName =1;
+    repeated int32 colour =2;
+    repeated int32 regionsIndex = 3;
+    repeated int32 unitsIndex = 4;
+    int32 phase = 5;
+    int32 unitsFree =6;
+}
+
+message GhostText
+{
+    string text = 1;
+    int32 x = 2;
+    int32 y = 3;
+    int32 length = 4;
+    int32 index =5;
+}
