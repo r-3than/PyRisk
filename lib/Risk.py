@@ -566,16 +566,22 @@ class Risk:
                     self.data = data
                     self.UpdateState()
     def checkWin(self):
+        deaths=0
         varx = random.randint(-50,50)
         vary = random.randint(-50,50)
         for pl in self.Players:
-            if pl.amtOfLand() == 0:
+            if pl.amtOfLand() == 0 and pl.dead == False:
                 pl.eliminate()
                 self.ghTextManager.addGhostText(pl.name + " has been eliminated!",100,self.totysize//3,8)
-        if len(self.Players) == 1:
-            varx = random.randint(-50,50)
-            vary = random.randint(-50,50)
-            self.ghTextManager.addGhostText(self.Players[0].name + " Has won the game! \n press Esc to start a new game" ,100+varx,self.totysize//2+vary,8)
+        for pl in self.Players:
+            if pl.dead == True:
+                deaths = deaths + 1
+            if len(self.Players)-1 == deaths:
+                varx = random.randint(-50,50)
+                vary = random.randint(-50,50)
+                self.ghTextManager.addGhostText(self.Players[0].name + " Has won the game! \n press Esc to start a new game" ,100+varx,self.totysize//2+vary,8)
+
+
 
     def playerActionMouse(self,event):
         if event.type == pygame.MOUSEBUTTONDOWN:
