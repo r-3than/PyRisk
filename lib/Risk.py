@@ -238,8 +238,6 @@ class Risk:
         Host = self.multiHost
         Port = self.multiPort
 
-
-        names = []
         sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         sock.bind((Host,Port))
         self.Players[0].name = "-Host- "+self.multiname
@@ -474,7 +472,7 @@ class Risk:
                 print("")
             if btn[0] == 1:
 
-                mypath = "./saves/"
+               # mypath = "./saves/"
                 """temploadedSaves = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
                 print(temploadedSaves)
                 tempamt =0
