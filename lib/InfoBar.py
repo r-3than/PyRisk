@@ -15,3 +15,4 @@ class InfoBar:
             scr.blit(lab,(0,(x*25)+50))
             XDraw = ((x2+10)//13)*13
             pygame.draw.rect(scr,self.players[x].colour,(XDraw,(x*25)+60,self.boxSize,self.boxSize))
+

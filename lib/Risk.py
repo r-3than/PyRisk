@@ -303,7 +303,7 @@ class Risk:
 
     def GiveRegions(self):
         indexer = 0
-        for x in range(0,len(self.Regions)):
+        for _ in range(0,len(self.Regions)):
             indexValue = random.randint(0,len(self.Regions)-1)
             aRegion = self.Regions[indexValue]
             self.Regions.pop(indexValue)
@@ -555,6 +555,7 @@ class Risk:
 
                             self.Clients[x].conn.send(data)
                     self.data = data
+                    self.anticheat(data) ## Warn all players of incorrect data from clients i/e hakcing
                     self.UpdateState()
 
             else: # CLient
@@ -657,7 +658,7 @@ class Risk:
             #self.selectedTile = None
             self.myStatBar.update()
             if event.key == pygame.K_e and not self.recordKeyboard:
-                self.saveGame()
+                self.saveGame("./")
             if event.key == pygame.K_r and not self.recordKeyboard:
                 self.loadGame("./GameState.txt")
 
@@ -739,6 +740,13 @@ class Risk:
 
             self.draw()
         pygame.quit()
+
+    def anticheat(self,data):
+        currentPacketHostPly = self.Players[data.currentPlayerIndex]
+        if currentPacketHostPly.phase < self.CurrPlayer.phase:
+            print("Phase skip hack")
+        
+
 
     def draw(self):
         self.screen.fill(self.BLACK)

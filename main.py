@@ -78,7 +78,7 @@ def findVisualCenter(points):
 
 def CreatePlayers(amt):
     playerList =[]
-    for x in range(0,amt):
+    for _ in range(0,amt):
         colour = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         newPlayer = Player(input("Player name:"),colour,100  )
         playerList.append(newPlayer)
