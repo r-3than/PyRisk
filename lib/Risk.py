@@ -53,10 +53,12 @@ class Risk:
         self.CreateMenu()
         self.loadMap()
         #self.CreatePlayers()
+        
         if first == True:
             self.GiveRegions()
         self.Main()
-
+    def CreateButtonMapping(self):
+        self.mapping = {button:"1"}
     def CreateMenu(self):
         sizey = self.totysize
         sizex = self.totxsize
@@ -464,6 +466,7 @@ class Risk:
 
         btn =self.MainMenu.clickPointer(self.pos)
         print(btn)
+        ### NOTE TO SELF CHANGE THIS MESS TO A SWITCH STATEMENT!
         if btn != None:
             if btn[0] == 0:
                 self.recordKeyboard = True
