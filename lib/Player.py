@@ -68,7 +68,7 @@ class Player:
                     ghmanager.addGhostText("-1",atckReg.VisCenter[0]+var1,atckReg.VisCenter[1]+var2,4)
                     #kill atckUnit
     def __repr__(self): # so we can print the obj
-        return 'Player: {} , Colour: {} , currentPhase: {} , availableUnits: {}'.format(self.name,self.colour,self.phase,self.availableUnits)
+        return 'Player: {} , Colour: {} , currentPhase: {} , availableUnits: {}'.format(self.name,self.colour,self.Phase,self.availableUnits)
 
 def isPointInPoly(point,poly):
     TrueCrosses = 0
