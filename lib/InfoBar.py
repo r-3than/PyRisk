@@ -13,7 +13,7 @@ class InfoBar:
         for x in range(0,len(self.players)):
             newString = self.players[x].name+":"
             lab = self.font.render(newString,True,WHITE)
-            x1,y1,x2,y2=lab.get_rect()
+            x2=lab.get_rect()[2]
             pos1 = ((x*25)+50)
             pos2 = ((x2+10)//13)*13
             pos3 = (x*25)+60
