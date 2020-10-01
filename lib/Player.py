@@ -1,6 +1,6 @@
 import pygame  , random
 class Player:
-    def __init__(self,name,colour,availableUnits=1,phase=2):
+    def __init__(self,name,colour,availableUnits=1,phase=2,):
         self.name = name
         self.colour = colour
         self.availableUnits =  availableUnits
@@ -67,6 +67,7 @@ class Player:
                     atckReg.loseUnit(defReg)
                     ghmanager.addGhostText("-1",atckReg.VisCenter[0]+var1,atckReg.VisCenter[1]+var2,4)
                     #kill atckUnit
+            return (atckList,defList) #return dice thrown so dice handler can draw to main screen
     def __repr__(self): # so we can print the obj
         return 'Player: {} , Colour: {} , currentPhase: {} , availableUnits: {}'.format(self.name,self.colour,self.Phase,self.availableUnits)
 

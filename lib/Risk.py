@@ -13,6 +13,7 @@ from lib.StatBar import StatBar
 from lib.TextInput import TextInput
 from lib.Unit import Unit
 from lib.ghostTextManager import ghostTextManager
+from lib.Dice import DiceHandler
 from lib.Player import Player
 
 
@@ -39,6 +40,7 @@ class Risk:
         self.isHosting = None
         self.Clients = []
         self.done = False
+        self.DHandler = None
         self.Regions = []
         self.Players = PlList
         self.INFBar = InfoBar(self.Players)
@@ -52,6 +54,7 @@ class Risk:
         self.keysPressed = []
         self.CreateMenu()
         self.loadMap()
+        
         #self.CreatePlayers()
         
         if first == True:
@@ -606,7 +609,8 @@ class Risk:
                         print("right")
                         for reg in self.Regions:
                             if isPointInPoly(self.pos,reg.points) == True and isAdj(self.selectedTile,reg) ==True and (reg not in self.CurrPlayer.ownedLand):
-                                self.CurrPlayer.attack(self.selectedTile,reg,self.ghTextManager)
+                                dice=self.CurrPlayer.attack(self.selectedTile,reg,self.ghTextManager)
+                                self.DHandler=DiceHandler(dice[0],dice[1],self.selectedTile,reg)
                         self.checkWin()
 
 
@@ -753,7 +757,7 @@ class Risk:
 
     def draw(self):
         self.screen.fill(self.BLACK)
-
+        
         if self.MainMenu.display ==True:
             self.MainMenu.draw(self.screen)
 
@@ -765,7 +769,7 @@ class Risk:
             self.myStatBar.draw(self.screen)
             self.INFBar.draw(self.screen)
             self.ghTextManager.draw(self.screen)
-
+            if self.DHandler : self.DHandler.draw(self.screen)
         self.clock.tick(60)
 
         pygame.display.flip()
