@@ -1,4 +1,4 @@
-import pygame
+import pygame , datetime
 
 def one(bSize):
     return [Pip(bSize//2,bSize//2)]
@@ -26,6 +26,8 @@ class DiceHandler:
         self.defVals = defVals
         diff = 30
         self.Die = []
+        self.createTime = datetime.datetime.now()
+        self.timeout = datetime.timedelta(seconds=4)
         startpoint = ((r1.VisCenter[0]+r2.VisCenter[0])//2,(r1.VisCenter[1]+r2.VisCenter[1])//2)
         for x in range(0,len(self.atkVals)):
             aDice = Dice(self.atkVals[x],startpoint[0]+x*diff,startpoint[1],RED)
@@ -34,8 +36,10 @@ class DiceHandler:
             aDice = Dice(self.defVals[x],startpoint[0]+x*diff,startpoint[1]+diff,BLUE)
             self.Die.append(aDice)
     def draw(self,scr):
-        for dice in self.Die:
-            dice.draw(scr)
+        now = datetime.datetime.now()
+        if now  < self.createTime + self.timeout:
+            for dice in self.Die:
+                dice.draw(scr)
 
 class Dice:
     def __init__(self,value,x1,y1,colour,boxSize=25):
