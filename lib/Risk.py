@@ -811,29 +811,25 @@ def isAdj(reg1,reg2):
     return found
 
 def isPointInPoly(point,poly):
-    TrueCrosses = 0
-    # point - > (x,y) poly -> [(x1,y1),(x2,y2)... etc ]
+    if winding(point,poly) != 0:
+        return True
+    else:
+        return False
+        
+def isLeft(P0,P1,P2):
+    return ((P1[0]-P0[0])*(P2[1]-P0[1]) - (P2[0]-P0[0])*(P1[1]-P0[1]))
+
+def winding(point,poly):
+    wn = 0
     for i in range(0,len(poly)):
         point1 = poly[i]
         point2 = poly[(i+1)%len(poly)]
-        if (point2[0] - point1[0]) != 0:
-            Grad = (point2[1] - point1[1])/(point2[0] - point1[0])
-
-            #print(Grad)
-            const = -(Grad*point1[0] - point1[1])
-            if Grad != 0:
-                XCross = (point[1]-const)/(Grad)
-            else:
-                XCross = point1[0]
-            YCross = XCross * Grad + const
+        if point1[1] <= point[1]:
+            if point2[1] >point[1]:
+                if isLeft(point1,point2,point) >0:
+                    wn = wn +1
         else:
-            XCross =point1[0]
-            YCross = point[1]
-
-        if min(point1[0],point2[0]) <= XCross <= max(point1[0],point2[0]) and point[0] <= XCross and min(point1[1],point2[1]) <= YCross <= max(point1[1],point2[1]):
-            TrueCrosses = TrueCrosses + 1
-        TrueCrosses = TrueCrosses % 2
-    if TrueCrosses % 2 == 0:
-        return False
-    else:
-        return True
+            if point2[1] <= point[1]:
+                if isLeft(point1,point2,point)<0:
+                    wn = wn-1
+    return wn
