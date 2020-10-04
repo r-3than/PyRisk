@@ -610,7 +610,8 @@ class Risk:
                         for reg in self.Regions:
                             if isPointInPoly(self.pos,reg.points) == True and isAdj(self.selectedTile,reg) ==True and (reg not in self.CurrPlayer.ownedLand):
                                 dice=self.CurrPlayer.attack(self.selectedTile,reg,self.ghTextManager)
-                                self.DHandler=DiceHandler(dice[0],dice[1],self.selectedTile,reg)
+                                if dice != None:
+                                    self.DHandler=DiceHandler(dice[0],dice[1],self.selectedTile,reg)
                                 
                         self.checkWin()
 
