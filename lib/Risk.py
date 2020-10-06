@@ -358,6 +358,18 @@ class Risk:
         self.CurrPlayer = self.Players[self.CurrPlayerTurn]
         self.myStatBar = StatBar(self.CurrPlayer)
         self.ghTextManager = ghostTextManager()
+        atkDice = []
+        defDice = []
+        for die in newGameState.AttackDice:
+            atkDice.append(die)
+        for die in newGameState.DefenceDice:
+            defDice.append(die)
+        if len(atkDice) != 0:
+            atkRegIndex = atkDice.pop()
+            defRegIndex = defDice.pop()
+            r1 = self.Regions[atkRegIndex]
+            r2 = self.Regions[defRegIndex]
+            self.DHandler = DiceHandler(atkDice,defDice,r1,r2)
         self.loadMap()
 
         for x in range(0,len(plyList)):
@@ -402,6 +414,18 @@ class Risk:
                     found = True
             if found == False:
                 self.ghTextManager.addGhostText(gh.text,gh.x,gh.y,gh.length)
+        atkDice = []
+        defDice = []
+        for die in newGameState.AttackDice:
+            atkDice.append(die)
+        for die in newGameState.DefenceDice:
+            defDice.append(die)
+        if len(atkDice) !=0:
+            atkRegIndex = atkDice.pop()
+            defRegIndex = defDice.pop()
+            r1 = self.Regions[atkRegIndex]
+            r2 = self.Regions[defRegIndex]
+            self.DHandler = DiceHandler(atkDice,defDice,r1,r2)
         self.myStatBar.ChangePly(self.CurrPlayer)
         #self.myStatBar.update()
     def getState(self):
@@ -436,6 +460,17 @@ class Risk:
             aText.length = ghText.length
             aText.index = ghText.index
             #print(ghText.text)
+        if self.DHandler:
+            attack , defence = [] , []
+            for val in self.DHandler.atkVals:
+                attack.append(val)
+            attack.append(self.DHandler.r1index)
+            for val in self.DHandler.defVals:
+                defence.append(val)
+            defence.append(self.DHandler.r2index)
+
+            thisGameState.AttackDice.extend(attack)
+            thisGameState.DefenceDice.extend(defence)
         return thisGameState
 
     def saveGame(self,dir):
@@ -561,7 +596,7 @@ class Risk:
 
                             self.Clients[x].conn.send(data)
                     self.data = data
-                    self.anticheat(data) ## Warn all players of incorrect data from clients i/e hakcing
+                    #self.anticheat(data) ## Warn all players of incorrect data from clients i/e hakcing
                     self.UpdateState()
 
             else: # CLient

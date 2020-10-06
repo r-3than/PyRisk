@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x0fGameState.proto\"\xb4\x01\n\x04Game\x12\x0e\n\x06mapdir\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x18\n\x07Players\x18\x03 \x03(\x0b\x32\x07.Player\x12\x1a\n\x12\x63urrentPlayerIndex\x18\x04 \x01(\x05\x12\x1a\n\x12\x63urrentPlayerPhase\x18\x05 \x01(\x05\x12\r\n\x05sizex\x18\x06 \x01(\x05\x12\r\n\x05sizey\x18\x07 \x01(\x05\x12\x1e\n\nGhostTexts\x18\x08 \x03(\x0b\x32\n.GhostText\"x\n\x06Player\x12\x12\n\nplayerName\x18\x01 \x01(\t\x12\x0e\n\x06\x63olour\x18\x02 \x03(\x05\x12\x14\n\x0cregionsIndex\x18\x03 \x03(\x05\x12\x12\n\nunitsIndex\x18\x04 \x03(\x05\x12\r\n\x05phase\x18\x05 \x01(\x05\x12\x11\n\tunitsFree\x18\x06 \x01(\x05\"N\n\tGhostText\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\x0e\n\x06length\x18\x04 \x01(\x05\x12\r\n\x05index\x18\x05 \x01(\x05\x62\x06proto3'
+  serialized_pb=b'\n\x0fGameState.proto\"\xdd\x01\n\x04Game\x12\x0e\n\x06mapdir\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x18\n\x07Players\x18\x03 \x03(\x0b\x32\x07.Player\x12\x1a\n\x12\x63urrentPlayerIndex\x18\x04 \x01(\x05\x12\x1a\n\x12\x63urrentPlayerPhase\x18\x05 \x01(\x05\x12\r\n\x05sizex\x18\x06 \x01(\x05\x12\r\n\x05sizey\x18\x07 \x01(\x05\x12\x1e\n\nGhostTexts\x18\x08 \x03(\x0b\x32\n.GhostText\x12\x12\n\nAttackDice\x18\t \x03(\x05\x12\x13\n\x0b\x44\x65\x66\x65nceDice\x18\n \x03(\x05\"x\n\x06Player\x12\x12\n\nplayerName\x18\x01 \x01(\t\x12\x0e\n\x06\x63olour\x18\x02 \x03(\x05\x12\x14\n\x0cregionsIndex\x18\x03 \x03(\x05\x12\x12\n\nunitsIndex\x18\x04 \x03(\x05\x12\r\n\x05phase\x18\x05 \x01(\x05\x12\x11\n\tunitsFree\x18\x06 \x01(\x05\"N\n\tGhostText\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\t\n\x01x\x18\x02 \x01(\x05\x12\t\n\x01y\x18\x03 \x01(\x05\x12\x0e\n\x06length\x18\x04 \x01(\x05\x12\r\n\x05index\x18\x05 \x01(\x05\x62\x06proto3'
 )
 
 
@@ -87,6 +87,20 @@ _GAME = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='AttackDice', full_name='Game.AttackDice', index=8,
+      number=9, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='DefenceDice', full_name='Game.DefenceDice', index=9,
+      number=10, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -100,7 +114,7 @@ _GAME = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=20,
-  serialized_end=200,
+  serialized_end=241,
 )
 
 
@@ -165,8 +179,8 @@ _PLAYER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=202,
-  serialized_end=322,
+  serialized_start=243,
+  serialized_end=363,
 )
 
 
@@ -224,8 +238,8 @@ _GHOSTTEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=324,
-  serialized_end=402,
+  serialized_start=365,
+  serialized_end=443,
 )
 
 _GAME.fields_by_name['Players'].message_type = _PLAYER

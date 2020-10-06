@@ -26,6 +26,7 @@ class DiceHandler:
         self.defVals = defVals
         diff = 30
         self.Die = []
+        self.r1index , self.r2index = r1.index , r2.index
         self.createTime = datetime.datetime.now()
         self.timeout = datetime.timedelta(seconds=4)
         startpoint = ((r1.VisCenter[0]+r2.VisCenter[0])//2,(r1.VisCenter[1]+r2.VisCenter[1])//2)

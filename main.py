@@ -82,5 +82,5 @@ def CreatePlayers(amt):
 
 
 myPlayers = CreatePlayers(3)
-MyGame = Risk("Map.txt",1000,1000,myPlayers)
+MyGame = Risk("Map.txt",1800,1000,myPlayers)
 #MyGame.loadMap()

@@ -9,6 +9,8 @@ message Game
     int32 sizex =6;
     int32 sizey =7;
     repeated GhostText GhostTexts =8;
+    repeated int32 AttackDice = 9;
+    repeated int32 DefenceDice = 10;
 }
 
 message Player
