@@ -257,6 +257,7 @@ class Risk:
             self.Players[len(self.Clients)].name = plname
             print("New client connected! as ",plname)
         print("All clients connected")
+        self.INFBar =InfoBar(self.Players)
         thisState = self.getState()
         print("Current state got!")
         indexer = 0
