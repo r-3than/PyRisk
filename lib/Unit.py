@@ -1,13 +1,13 @@
 import pygame
 BLACK = (0,0,0)
 WHITE = (255,255,255)
-rad = 15
+rad = 18
 class Unit:
     def __init__(self,amt,pos):
         self.amt = amt
         self.pos = pos
 
-        self.font = pygame.font.Font('Marons-Regular.ttf', 35)
+        self.font = pygame.font.Font('Marons-Regular.ttf', 30)
         self.text = self.font.render(str(self.amt), True, WHITE)
         self.textpos = self.update()
         self.update()

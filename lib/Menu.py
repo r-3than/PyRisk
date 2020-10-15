@@ -32,13 +32,13 @@ class Menu:
         aRect = displayText.get_rect()
         if len(self.Buttons) == 0:
             print("Called!")
-            newRect = (aRect[0]+self.offset[0],aRect[1]+self.offset[1],aRect[2],aRect[3])
+            newRect = (100,aRect[1]+self.offset[1],aRect[2],aRect[3])
             aButton = Button(newRect,text,index)
             self.Buttons.append(aButton)
         else:
             lastButton = self.Buttons[len(self.Buttons)-1]
             lastRect = lastButton.rect
-            newrect = (lastRect[0],lastRect[1]+lastRect[3]+self.spacing,aRect[2],aRect[3])
+            newrect = (100,lastRect[1]+lastRect[3]+self.spacing,aRect[2],aRect[3])
             x1,y1,x2,y2 = newrect
             newButton = Button(newrect,text,index)
             self.Buttons.append(newButton)
