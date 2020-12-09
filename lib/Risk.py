@@ -786,13 +786,6 @@ class Risk:
             self.draw()
         pygame.quit()
 
-    def anticheat(self,data):
-        currentPacketHostPly = self.Players[data.currentPlayerIndex]
-        if currentPacketHostPly.phase < self.CurrPlayer.phase:
-            print("Phase skip hack")
-        
-
-
     def draw(self):
         self.screen.fill(self.BLACK)
         
