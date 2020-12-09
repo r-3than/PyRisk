@@ -597,7 +597,6 @@ class Risk:
 
                             self.Clients[x].conn.send(data)
                     self.data = data
-                    #self.anticheat(data) ## Warn all players of incorrect data from clients i/e hakcing
                     self.UpdateState()
 
             else: # CLient
