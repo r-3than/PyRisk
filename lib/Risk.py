@@ -60,8 +60,6 @@ class Risk:
         if first == True:
             self.GiveRegions()
         self.Main()
-    def CreateButtonMapping(self):
-        self.mapping = {button:"1"}
     def CreateMenu(self):
         sizey = self.totysize
         sizex = self.totxsize
