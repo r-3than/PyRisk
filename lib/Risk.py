@@ -60,6 +60,8 @@ class Risk:
         if first == True:
             self.GiveRegions()
         self.Main()
+    def CreateButtonMapping(self):
+        self.mapping = {button:"1"}
     def CreateMenu(self):
         sizey = self.totysize
         sizex = self.totxsize
@@ -225,12 +227,24 @@ class Risk:
 
 
         htpMenu = Menu()
-        DescLab = Label(0,0,"How to play etc etc")
+        DescLab = Label(0,0,"How to play:")
+        DescLab1 = Label(0,100,"Left click on a region to add units.")
+        DescLab2 = Label(0,200,"Enter to move stages.")
+        DescLab3 = Label(0,300,"Left click to selection regions.")
+        DescLab4 = Label(0,400,"Right click to attack.")
+        DescLab5 = Label(0,500,"Take over the world to win!")
         htpMenu.addItem(DescLab)
+        htpMenu.addItem(DescLab1)
+        htpMenu.addItem(DescLab2)
+        htpMenu.addItem(DescLab3)
+        htpMenu.addItem(DescLab4)
+        htpMenu.addItem(DescLab5)
+
         self.MainMenu.SubMenus.append(htpMenu)
 
     def HostGame(self):
         self.reset(self.multiamtply)
+        self.mapdir = self.multimapdir
         self.loadMap()
         self.GiveRegions()
         self.multiplayer = True
