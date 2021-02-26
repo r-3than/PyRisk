@@ -7,7 +7,7 @@ def loadFile(dirname):
     MapState.ParseFromString(f.read())
     return MapState
 
-filename = "./USA.txt"
+filename = "./World.txt"
 Map = loadFile(filename)
 
 class Region:
