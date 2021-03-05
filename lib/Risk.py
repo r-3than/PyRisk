@@ -17,11 +17,11 @@ from lib.Dice import DiceHandler
 from lib.Player import Player
 
 
-BLACK = (0,0,0)
+BLACK = (0,0,0)          #defineing a bunch of colours
 WHITE = (255,255,255)
 BACKGROUNDCL = ()
 rad = 15
-def CreateMenu(List):
+def CreateMenu(List): #simple menu test function
     aMenu = Menu()
     x=0
     for item in List:
@@ -32,7 +32,7 @@ def CreateMenu(List):
 class Risk:
     def __init__(self,mapdir,sizex,sizey,PlList,first=True):
         pygame.init()
-        self.mapdir = mapdir
+        self.mapdir = mapdir                                    ##Define default main settings
         self.totxsize = sizex
         self.totysize = sizey
         self.amtOfPlayers = len(PlList)
@@ -60,9 +60,7 @@ class Risk:
         if first == True:
             self.GiveRegions()
         self.Main()
-    def CreateButtonMapping(self):
-        self.mapping = {button:"1"}
-    def CreateMenu(self):
+    def CreateMenu(self):               #All just gui design using the menu object ans sub objects to create a nice interface.
         sizey = self.totysize
         sizex = self.totxsize
         self.MenuOpen = True
@@ -76,8 +74,8 @@ class Risk:
         "How to play",
         "Exit"
         ]
-        config = open("config.txt").read().split("\n")
-        for details in config:
+        config = open("config.txt").read().split("\n")  #read online config file
+        for details in config:                          #displaying contents
             details = details.split(":")
             if details[0] == "name":
                 self.multiname = details[1]
@@ -508,6 +506,17 @@ class Risk:
                 print(self.keysPressed)
                 #-> NewGame -> create options for the menu to create x amt of players and new map
             if btn[0] == 1:
+                self.loadMenu.Buttons = []
+                mypath = "./saves"
+                self.loadedSaves = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
+                for y in range(0,len(self.loadedSaves)):
+                    displayText = self.font.render(self.loadedSaves[y], True, WHITE)
+                    aRect = displayText.get_rect()
+                    aRect[0] = 25
+                    aRect[1] = 100 + (y*75)
+                    self.lasty = 100 +(y*75)
+                    savebtn = Button(aRect,self.loadedSaves[y],9,False)
+                    self.loadMenu.addBtnManual(savebtn)
                 pass
             if btn[0] == 2:
                 self.recordKeyboard = True

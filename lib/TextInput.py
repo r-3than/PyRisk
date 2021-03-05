@@ -6,7 +6,7 @@ class TextInput:
         textlist = []
         self.pos = (x1,y1)
         self.textlist = textlist
-        self.text = "".join(self.textlist)
+        self.text = "".join(self.textlist) #Stack that will display text
         self.font = pygame.font.Font('Marons-Regular.ttf', 35)
         self.displayText = self.font.render(self.text, True, WHITE)
     def update(self,textlist):
