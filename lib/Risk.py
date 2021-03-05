@@ -240,7 +240,7 @@ class Risk:
 
         self.MainMenu.SubMenus.append(htpMenu)
 
-    def HostGame(self):
+    def HostGame(self):                     #Host game function handles incoming connections notice hangs until all connections have been made
         self.reset(self.multiamtply)
         self.mapdir = self.multimapdir
         self.loadMap()
@@ -256,7 +256,7 @@ class Risk:
         sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         sock.bind((Host,Port))
         self.Players[0].name = "-Host- "+self.multiname
-        while len(self.Clients) < len(self.Players)-1:
+        while len(self.Clients) < len(self.Players)-1:      #wait for all clients
             print("Listening for a client")
             sock.listen(0)
             conn , addr = sock.accept()
@@ -271,7 +271,7 @@ class Risk:
         thisState = self.getState()
         print("Current state got!")
         indexer = 0
-        for cl in self.Clients:
+        for cl in self.Clients:     #send map and game details to all players
             indexer = indexer + 1
             cl.conn.send(indexer.to_bytes(32,"big"))
             print("id sent!")
@@ -280,7 +280,7 @@ class Risk:
             print("sent state to player",indexer)
         self.sock = sock
 
-        self.ListenerThread = threading.Thread(target=self.ListenerThread)
+        self.ListenerThread = threading.Thread(target=self.ListenerThread) #listener for clients
         self.ListenerThread.start()
 
     def ConnectGame(self,address="localhost"):
@@ -292,11 +292,13 @@ class Risk:
         ##Port = 52521
 
 
-
-        self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.sock.connect((address,Port))
-        time.sleep(0.01)
-        self.sock.send(self.multiname.encode("windows-1252"))
+        ##try make connection
+        try:
+            self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            self.sock.connect((address,Port))
+            time.sleep(0.01)
+            self.sock.send(self.multiname.encode("windows-1252"))
+        except:return
 
         ## want to update gui
 
@@ -317,9 +319,9 @@ class Risk:
 
         print("Connection has been made",self.PlayerId)
 
-    def GiveRegions(self):
+    def GiveRegions(self): ##hands out regions randomly
         indexer = 0
-        for _ in range(0,len(self.Regions)):
+        for _ in range(0,len(self.Regions)):                        #loops thourhg regions
             indexValue = random.randint(0,len(self.Regions)-1)
             aRegion = self.Regions[indexValue]
             self.Regions.pop(indexValue)
@@ -327,9 +329,9 @@ class Risk:
             indexer = (indexer+1) % self.amtOfPlayers
 
         for ply in self.Players:
-            self.Regions = self.Regions + ply.ownedLand
+            self.Regions = self.Regions + ply.ownedLand ##add land back too pool so we know how to calc a win
 
-        newUnitsamt = 0
+        newUnitsamt = 0                                     ## asign units ghost text for their worth
         for reg in self.CurrPlayer.ownedLand:
             var1 = random.randint(-7,7)
             var2 = random.randint(-7,7)
@@ -340,11 +342,11 @@ class Risk:
         self.myStatBar.update()
 
     def loadGame(self,filedir):
-        newGameState = GameState_pb2.Game()
-        f = open(filedir,"rb")
-        newGameState.ParseFromString(f.read())
-        self.loadData(newGameState)
-        self.Main()
+        newGameState = GameState_pb2.Game()  ##create new protobuf obj
+        f = open(filedir,"rb")              #open file
+        newGameState.ParseFromString(f.read()) #parse file to protobuf obj
+        self.loadData(newGameState) ##load data into memory
+        self.Main() #call main game loop
 
     def loadData(self,data): #load data from protobuf obj
         newGameState = data
@@ -425,7 +427,7 @@ class Risk:
             self.DHandler = DiceHandler(atkDice,defDice,r1,r2)
         self.myStatBar.ChangePly(self.CurrPlayer)
         #self.myStatBar.update()
-    def getState(self):
+    def getState(self):                                                             #GEt current state then turn it into google protobuf obj
         thisGameState = GameState_pb2.Game()
         thisGameState.name = ""
         thisGameState.mapdir = self.mapdir
@@ -470,18 +472,18 @@ class Risk:
             thisGameState.DefenceDice.extend(defence)
         return thisGameState
 
-    def saveGame(self,dir):
-        state=self.getState()
+    def saveGame(self,dir):                                         #Save game
+        state=self.getState()                                          #get data (in protobuf)
 
         print("savegame called with",dir)
 
         MapFile = open(dir, "wb")
 
-        MapFile.write(state.SerializeToString())
+        MapFile.write(state.SerializeToString())            #serialize and write obj to file
 
         MapFile.close()
 
-    def reset(self,amtPl):
+    def reset(self,amtPl): #reset for new game (resets defualt values and creates some temp players)
         playerList =[]
         for x in range(0,amtPl):
             colour = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
@@ -497,7 +499,7 @@ class Risk:
         self.CurrPlayer = self.Players[self.CurrPlayerTurn]
         self.myStatBar = StatBar(self.CurrPlayer)
 
-    def BtnCalc(self):
+    def BtnCalc(self): ##Handles buttons
 
         btn =self.MainMenu.clickPointer(self.pos)
         if btn != None:
@@ -571,7 +573,7 @@ class Risk:
                 self.ConnectGame()
                 self.MainMenu.display = False
 
-    def ListenerThread(self):
+    def ListenerThread(self):           #Listener thread for host and client
         print("Listening for incomming data")
         while self.done == False:
             if self.isHosting == True: #Host
@@ -590,7 +592,7 @@ class Risk:
                     data=self.sock.recv(4096)
                     self.data = data
                     self.UpdateState()
-    def checkWin(self):
+    def checkWin(self):         #checks a winn and displays a message via ghost text
         deaths=0
         varx = random.randint(-50,50)
         vary = random.randint(-50,50)
@@ -608,7 +610,7 @@ class Risk:
 
 
 
-    def playerActionMouse(self,event):
+    def playerActionMouse(self,event):          #Handles player clicks
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.pos = pygame.mouse.get_pos()
             if self.MainMenu.display == True:
@@ -667,7 +669,7 @@ class Risk:
                 #self.CurrPlayer.addUnit(print("movement")self.pos)
                 self.myStatBar.update()
 
-    def playerActionKeyboard(self,event):
+    def playerActionKeyboard(self,event): ##handles player keyboard actions
         if event.type == pygame.KEYDOWN:
             if self.recordKeyboard == True:
                 if event.key != pygame.K_BACKSPACE:
@@ -727,7 +729,7 @@ class Risk:
             cl.conn.send(data)
 
     def Main(self):
-        ## NOTE TO SELF: // multiplayer
+        ##NOTE to self on multiplayer                                                               --this is completed
         ## if is host use a thread? dedecate to listen to next player in self.Clients array
         ## for client should use a thread to listen for new data or should include
         ## in the main function to get the new data which would be better
@@ -770,7 +772,7 @@ class Risk:
             self.draw()
         pygame.quit()
 
-    def draw(self):
+    def draw(self): #draws all objects to the screen
         self.screen.fill(self.BLACK)
         
         if self.MainMenu.display ==True:
@@ -789,7 +791,7 @@ class Risk:
 
         pygame.display.flip()
 
-    def loadMap(self):
+    def loadMap(self): ##loads a map file from protobuf
         self.Regions = []
         Map = Map_pb2.Map()
         f = open(self.mapdir,"rb")
@@ -824,16 +826,16 @@ def isAdj(reg1,reg2):
             found = True
     return found
 
-def isPointInPoly(point,poly):
+def isPointInPoly(point,poly): #More Maths magic see here  -> https://en.wikipedia.org/wiki/Winding_number
     if winding(point,poly) != 0:
         return True
     else:
         return False
         
-def isLeft(P0,P1,P2):
+def isLeft(P0,P1,P2): #More Maths magic see here  -> https://en.wikipedia.org/wiki/Winding_number
     return ((P1[0]-P0[0])*(P2[1]-P0[1]) - (P2[0]-P0[0])*(P1[1]-P0[1]))
 
-def winding(point,poly):
+def winding(point,poly): #More Maths magic see here  -> https://en.wikipedia.org/wiki/Winding_number
     wn = 0
     for i in range(0,len(poly)):
         point1 = poly[i]
