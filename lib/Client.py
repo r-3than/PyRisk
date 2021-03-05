@@ -1,5 +1,5 @@
 class Client:
     def __init__(self,conn,addr):
-        self.conn = conn
-        self.addr = addr
-        self.IsOnline = False
+        self.conn = conn #socket connection object
+        self.addr = addr #address
+        self.IsOnline = False # are they online

@@ -1,6 +1,6 @@
 import pygame
 WHITE = (255,255,255)
-class Label:
+class Label: #simple label obj just displays text in the menus
     def __init__(self,x1,y1,text):
         self.pos = (x1,y1)
         self.text = text

@@ -20,14 +20,14 @@ class Menu:
         self.Buttons = []
         self.items = []
         self.CurrentMenuIndex = 0
-        self.SubMenus = [self]
+        self.SubMenus = [self] #going to use a tree data structure in main program we add menus to this and code within each menu support this
         self.CurrentMenu = self
         self.font = pygame.font.Font('Marons-Regular.ttf', 35)
     def addBtnManual(self,btn):
         self.Buttons.append(btn)
     def addItem(self,item):
         self.items.append(item)
-    def addBtn(self,x1,y1,text,index):
+    def addBtn(self,x1,y1,text,index): #autoplace button with alignment
         displayText = self.font.render(text, True, WHITE)
         aRect = displayText.get_rect()
         if len(self.Buttons) == 0:
@@ -42,13 +42,13 @@ class Menu:
             x1,y1,x2,y2 = newrect
             newButton = Button(newrect,text,index)
             self.Buttons.append(newButton)
-    def back(self):
-        self.CurrentMenuIndex= 0
+    def back(self): # goes back to the main menu
+        self.CurrentMenuIndex= 0 #save where it is in the tree
         self.CurrentMenu = self
     def draw(self,scr):
-        currentDrawing = self.CurrentMenu
+        currentDrawing = self.CurrentMenu 
         #print(currentDrawing)
-        if self.display:
+        if self.display: # draws all item in the menu
             for btn in currentDrawing.Buttons:
                 btn.draw(scr)
             for item in currentDrawing.items:
@@ -57,12 +57,11 @@ class Menu:
         for btn in self.CurrentMenu.Buttons:
             if btn.pointInBtn(point) == True:
                 if btn.subMenu == True:
-                    self.CurrentMenuIndex= btn.index + 1
-                    self.CurrentMenu = self.SubMenus[self.CurrentMenuIndex]
-                return (btn.index,btn.text)
-    def parsePointer(self,point):
+                    self.CurrentMenuIndex= btn.index + 1 # finds the menu index
+                    self.CurrentMenu = self.SubMenus[self.CurrentMenuIndex] #uses the tree thing
+                return (btn.index,btn.text) # return btn.index and text so we know what to do
+    def parsePointer(self,point): #parses pointer so the buttons know when click / hovered over
         point = [point[0],point[1]]
-        #print(point)
         if self.display:
             for btn in self.CurrentMenu.Buttons:
                 if btn.pointInBtn(point) == True:
