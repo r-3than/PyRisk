@@ -377,12 +377,6 @@ class Risk:
             atkDice.append(die)
         for die in newGameState.DefenceDice:
             defDice.append(die)
-        if len(atkDice) != 0:
-            atkRegIndex = atkDice.pop()
-            defRegIndex = defDice.pop()
-            r1 = self.Regions[atkRegIndex]
-            r2 = self.Regions[defRegIndex]
-            self.DHandler = DiceHandler(atkDice,defDice,r1,r2)
         self.loadMap()
 
         for x in range(0,len(plyList)):
