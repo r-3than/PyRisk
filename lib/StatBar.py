@@ -3,7 +3,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 class StatBar:
     def __init__(self,Ply):
-        self.CurrPlayer = Ply
+        self.CurrPlayer = Ply #Player who is currently playing
         self.PhaseDict = {1:"Attack",2:"Deploy",3:"Movement"}
         self.font = pygame.font.Font('Marons-Regular.ttf', 40)
         self.update()
