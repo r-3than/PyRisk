@@ -348,22 +348,22 @@ class Risk:
         self.loadData(newGameState)
         self.Main()
 
-    def loadData(self,data):
+    def loadData(self,data): #load data from protobuf obj
         newGameState = data
         plyList = []
-        for ply in newGameState.Players:
+        for ply in newGameState.Players: #go through all players and add them
             aPlayer = Player(ply.playerName,ply.colour,ply.unitsFree)
             plyList.append(aPlayer)
 
         #self.__init__(newGameState.mapdir,newGameState.sizex,newGameState.sizey,plyList,False)
 
-        self.mapdir = newGameState.mapdir
+        self.mapdir = newGameState.mapdir #map size and currents player stuff
         self.totxsize = newGameState.sizex
         self.totysize = newGameState.sizey
         self.CurrPlayerTurn = newGameState.currentPlayerIndex
 
 
-        self.amtOfPlayers = len(plyList)
+        self.amtOfPlayers = len(plyList)                         ###RECREATING IMPORTANT OBJECTS below
         self.done = False
         self.Players = plyList
         self.INFBar = InfoBar(self.Players)
@@ -371,15 +371,9 @@ class Risk:
         self.CurrPlayer = self.Players[self.CurrPlayerTurn]
         self.myStatBar = StatBar(self.CurrPlayer)
         self.ghTextManager = ghostTextManager()
-        atkDice = []
-        defDice = []
-        for die in newGameState.AttackDice:
-            atkDice.append(die)
-        for die in newGameState.DefenceDice:
-            defDice.append(die)
         self.loadMap()
 
-        for x in range(0,len(plyList)):
+        for x in range(0,len(plyList)):                                                 ###setting regions correctly
             for y in range(0,len(newGameState.Players[x].regionsIndex)):
                 currentReg = self.Regions[newGameState.Players[x].regionsIndex[y]]
                 plyList[x].ownedLand.append(currentReg)
@@ -387,8 +381,6 @@ class Risk:
                 currentReg.setUnit(newGameState.Players[x].unitsIndex[y])
 
         self.CurrPlayer.Phase = newGameState.currentPlayerPhase
-        for gh in newGameState.GhostTexts:
-            self.ghTextManager.addGhostText(gh.text,gh.x,gh.y,gh.length)
             #self.Main()
     def UpdateState(self): ##  Only applies update to units in region and player controled regions DOESNT create map again (more effiecnt)
         newGameState = GameState_pb2.Game()
@@ -510,35 +502,13 @@ class Risk:
     def BtnCalc(self):
 
         btn =self.MainMenu.clickPointer(self.pos)
-        print(btn)
-        ### NOTE TO SELF CHANGE THIS MESS TO A SWITCH STATEMENT!
         if btn != None:
             if btn[0] == 0:
                 self.recordKeyboard = True
                 print(self.keysPressed)
                 #-> NewGame -> create options for the menu to create x amt of players and new map
-                print("")
             if btn[0] == 1:
-
-               # mypath = "./saves/"
-                """temploadedSaves = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
-                print(temploadedSaves)
-                tempamt =0
-                for y in range(0,len(temploadedSaves)):
-
-                    if temploadedSaves[y] not in self.loadedSaves:
-                        tempamt = tempamt + 1
-                        print(temploadedSaves[y])
-                        displayText = self.font.render(temploadedSaves[y], True, WHITE)
-                        aRect = displayText.get_rect()
-                        aRect[0] = 25
-                        aRect[1] = self.lasty + (tempamt*75)
-                        savebtn = Button(aRect,temploadedSaves[y],8,False)
-                        self.MainMenu.SubMenus[1].addBtnManual(savebtn)
-                self.loadedSaves = temploadedSaves
-                #-> Load -> list maps files"""
-
-                print("")
+                pass
             if btn[0] == 2:
                 self.recordKeyboard = True
                 print(self.keysPressed)
@@ -566,18 +536,18 @@ class Risk:
                     self.InfoLab.changeText("Map File: " + " Players: "+btn[1])
 
             if btn[0] == 8: #Start game
-                self.mapdir = "./maps/"+self.filename
-                self.reset(self.amtPly)
-                self.loadMap()
-                self.GiveRegions()
-                self.MainMenu.display = False
-                self.MainMenu.back()
+                try:
+                    self.mapdir = "./maps/"+self.filename
+                    self.reset(self.amtPly)
+                    self.loadMap()
+                    self.GiveRegions()
+                    self.MainMenu.display = False
+                    self.MainMenu.back()
+                except:pass
 
             if btn[0] == 9:
                 self.MainMenu.display = False
                 self.loadGame("./saves/"+btn[1])
-
-
 
             if btn[0] ==10:
                 self.MainMenu.display = False
